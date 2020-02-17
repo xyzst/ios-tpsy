@@ -19,9 +19,10 @@ class TipViewController: UIViewController {
     @IBOutlet weak var twentyPercent: UIButton!
     
     @IBOutlet weak var splitBy: UILabel!
+    
+    var currentTip: Float = 0.1
 
     @IBAction func tipUpdated(_ sender: UIButton) {
-        var currentTip: Float = 0.1
         
         switch(sender.currentTitle!) {
         case "0%":
@@ -43,7 +44,8 @@ class TipViewController: UIViewController {
             return // no-operation
         }
         
-        print(currentTip)
+        // to force close the keyboard after user taps on tip percentages
+        total.endEditing(true)
     }
     
     
@@ -53,10 +55,19 @@ class TipViewController: UIViewController {
     /// Current min value is 2 while the max value is 25
     /// - Parameter sender: The UIStepper element defined for this view controller
     @IBAction func splitBy(_ sender: UIStepper) {
+        print(sender.value)
         splitBy.text = String(format: "%1.f", sender.value)
     }
     
     @IBAction func calculate(_ sender: UIButton) {
+        
+        let bill = Float(total.text!)
+        let perc = currentTip
+        let people = Float(splitBy.text!)
+        
+        let x = (bill ?? 0.0) * (1.0 + perc) / people!
+        
+        print(x)
     }
 }
 
