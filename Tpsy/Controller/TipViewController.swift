@@ -21,6 +21,29 @@ class TipViewController: UIViewController {
     @IBOutlet weak var splitBy: UILabel!
 
     @IBAction func tipUpdated(_ sender: UIButton) {
+        var currentTip: Float = 0.1
+        
+        switch(sender.currentTitle!) {
+        case "0%":
+            zeroPercent.isSelected = true
+            tenPercent.isSelected = false
+            twentyPercent.isSelected = false
+            currentTip = 0.0
+        case "10%":
+            zeroPercent.isSelected = false
+            tenPercent.isSelected = true
+            twentyPercent.isSelected = false
+            currentTip = 0.1
+        case "20%":
+            zeroPercent.isSelected = false
+            tenPercent.isSelected = false
+            twentyPercent.isSelected = true
+            currentTip = 0.2
+        default:
+            return // no-operation
+        }
+        
+        print(currentTip)
     }
     
     @IBAction func splitBy(_ sender: UIStepper) {
