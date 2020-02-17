@@ -20,7 +20,11 @@ class TipViewController: UIViewController {
     
     @IBOutlet weak var splitBy: UILabel!
     
-    var currentTip: Float = 0.1
+    var tipModel = TipModel()
+    
+    override func viewDidLoad() {
+        tipModel.setSplit(split: 1.0)
+    }
 
     @IBAction func tipUpdated(_ sender: UIButton) {
         
@@ -29,17 +33,17 @@ class TipViewController: UIViewController {
             zeroPercent.isSelected = true
             tenPercent.isSelected = false
             twentyPercent.isSelected = false
-            currentTip = 0.0
+            tipModel.setTipPercentage(tip: 0.0)
         case "10%":
             zeroPercent.isSelected = false
             tenPercent.isSelected = true
             twentyPercent.isSelected = false
-            currentTip = 0.1
+            tipModel.setTipPercentage(tip: 0.1)
         case "20%":
             zeroPercent.isSelected = false
             tenPercent.isSelected = false
             twentyPercent.isSelected = true
-            currentTip = 0.2
+            tipModel.setTipPercentage(tip: 0.2)
         default:
             return // no-operation
         }
@@ -55,19 +59,21 @@ class TipViewController: UIViewController {
     /// Current min value is 2 while the max value is 25
     /// - Parameter sender: The UIStepper element defined for this view controller
     @IBAction func splitBy(_ sender: UIStepper) {
-        print(sender.value)
         splitBy.text = String(format: "%1.f", sender.value)
+        tipModel.setSplit(split: Float(sender.value))
     }
     
     @IBAction func calculate(_ sender: UIButton) {
-        
-        let bill = Float(total.text!)
-        let perc = currentTip
-        let people = Float(splitBy.text!)
-        
-        let x = (bill ?? 0.0) * (1.0 + perc) / people!
-        
-        print(x)
+        tipModel.setAmount(amount: Float(total.text ?? "0.0")!)
+        self.performSegue(withIdentifier: "displayTotal", sender: self)
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "displayTotal" {
+            let rvc = segue.destination as! ResultViewController
+            rvc.tipModel = tipModel
+        }
     }
 }
 

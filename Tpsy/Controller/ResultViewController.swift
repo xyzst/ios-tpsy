@@ -11,27 +11,23 @@
 import UIKit
 
 class ResultViewController: UIViewController {
+    
+    var tipModel: TipModel?
+    
     @IBOutlet weak var total: UILabel!
     
     @IBOutlet weak var environment: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        print(tipModel!.getAmountPaidByEachPerson())
+        
+        total.text = String(format: "%.2f", tipModel!.getAmountPaidByEachPerson())
+        environment.text = "Split between \(String(format: "%1.f", tipModel!.getSplit())) people, with a \(tipModel!.getTip() * 100)% tip."
     }
     
     @IBAction func recalculate(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
