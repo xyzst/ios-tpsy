@@ -47,6 +47,7 @@ class TipViewController: UIViewController {
     }
     
     @IBAction func splitBy(_ sender: UIStepper) {
+        splitBy.text = String(format: "%1.f", sender.value)
     }
     
     @IBAction func calculate(_ sender: UIButton) {
